@@ -1,23 +1,27 @@
 import requests
-import random
+import json
 
-servidor ="192.168.1.17:5101"
-
-
-def main():
-    # Realizar la petición GET a la API
-    respuesta = requests.get("https://api.ejemplo.com/estado usando request")
-    datos = respuesta.text
-    print(datos)
-    return datos
 
 
 def comprobar_estado():
-    for i in range(200):
-        if i == 200:
-            print("OK")
-        else:
-            "ERROR"
+    try:
+        # Realizar la petición GET a la API
+        respuesta = requests.get("https://api.ejemplo.com/estado usando request")
+
+        # Verificar si la petición fue exitosa
+        respuesta.raise_for_status()
+
+        # Obtener y mostrar los datos en formato JSON
+        datos = respuesta.json()
+        print("Respuesta de la API:")
+        print(f"Mensaje: {datos['OK']}")
+        print(f"Estado: {datos['estado']}")
+
+    except requests.exceptions.ConnectionError:
+        print("ERROR: FALLO DE CONEXION")
+    except requests.exceptions.RequestException as e:
+        print(f"ERROR: {e}")
+
 
 if __name__ == '__main__':
-    main()
+    comprobar_estado()
